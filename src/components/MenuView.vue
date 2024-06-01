@@ -6,21 +6,6 @@ const menuIconStore = useMenuIconStore()
 <template>
   <div v-if="menuIconStore.menuIconStatus">
     <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
-    <div>MenuView</div>
   </div>
 </template>
 
