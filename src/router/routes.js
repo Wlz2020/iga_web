@@ -3,22 +3,29 @@ import { RouterName as RN } from '@/config/router'
 export const routes = [
   {
     path: '/',
-    name: RN.Root,
-    redirect: {
-      name: RN.Home
-    },
     children: [
       // 首页
       {
-        path: '',
         name: RN.Home,
+        path: '',
         component: () => import('@/views/index')
       },
       // 关于页
       {
         path: '/about',
         name: RN.About,
-        component: () => import('@/views/about')
+        children: [
+          {
+            path: '/about-us',
+            name: RN.AboutUs,
+            component: () => import('@/views/about/aboutUs')
+          },
+          {
+            path: '/our-team',
+            name: RN.OurTeam,
+            component: () => import('@/views/about/ourTeam')
+          }
+        ]
       }
     ]
   }

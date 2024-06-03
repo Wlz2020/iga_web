@@ -4,5 +4,7 @@
  */
 export const RouterName = Object.freeze({
   Home: 'Home',
-  About: 'About'
+  About: 'About',
+  AboutUs: 'AboutUs',
+  OurTeam: 'OurTeam'
 })

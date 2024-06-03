@@ -42,7 +42,7 @@ function onClick() {
 
   .load-img {
     img {
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
@@ -50,7 +50,7 @@ function onClick() {
     position: absolute;
     text-align: center;
     width: 100%;
-    bottom: 7vh;
+    bottom: 2vh;
 
     span {
       position: relative;
