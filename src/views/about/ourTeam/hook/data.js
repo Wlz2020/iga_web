@@ -9,6 +9,7 @@ import ImgTeacherLisurt from '@/assets/image/about/teacher8.jpg'
 import ImgTeacherFreddy from '@/assets/image/about/teacher9.jpg'
 
 export const levels = Object.freeze({
+  All: 'All',
   Supervisor: 'Supervisor',
   Tutor: 'Tutor'
 })

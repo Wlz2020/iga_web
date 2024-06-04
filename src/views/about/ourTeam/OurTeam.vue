@@ -1,14 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentInstance } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Mousewheel, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import { goHome } from '@/helps/go-home'
 
 import IconClose from '@/components/IconClose.vue'
 import bus from '@/utils/bus'
 
-import { teamList } from './hook/data'
+import { teamList, levels } from './hook/data'
 
 const onSwiper = (swiper) => {
   console.log(swiper)
@@ -22,13 +23,13 @@ const addFilterBg = ref(false)
 
 const swiperList = ref([])
 
-const currenrTeacher = ref()
+const reallySwiperList = ref(teamList)
 
-const currenrTeacherName = ref()
+const currenrTeacher = ref(teamList[0])
 
-function onMouseoverTeacher(item) {
-  currenrTeacher.value = item
-}
+const currentLevel = ref(levels.All)
+
+const showoDetailsInfoView = ref(false)
 
 function generateSwiperItems(list = []) {
   const maxPerItem = 6
@@ -43,29 +44,75 @@ function generateSwiperItems(list = []) {
 }
 
 function initDataList() {
-  swiperList.value = generateSwiperItems(teamList)
+  swiperList.value = generateSwiperItems(reallySwiperList.value)
+}
+
+function onMouseoverTeacher(item) {
+  currenrTeacher.value = item
 }
 
 function onClickTeacher(item) {
-  currenrTeacherName.value = item.name
+  currenrTeacher.value = item
+
+  showoDetailsInfoView.value = true
+  addFilterBg.value = true
 }
 
 function onShowTip(item) {
-  return currenrTeacher.value === item && currenrTeacherName.value !== item.name
+  return currenrTeacher.value === item
+}
+
+function onCloseInfoView() {
+  showoDetailsInfoView.value = false
+  addFilterBg.value = false
+}
+
+function onFilterTeacherByLevel(level) {
+  currentLevel.value = level
+
+  if (level === levels.All) {
+    reallySwiperList.value = teamList
+    initDataList()
+    return
+  }
+
+  reallySwiperList.value = teamList.filter((item) => item.level === level)
+  initDataList()
+}
+
+const instance = getCurrentInstance()
+
+function onGoHome() {
+  const { $router } = instance.proxy
+  goHome($router)
 }
 
 onMounted(() => {
   initDataList()
+
   bus.on('bus-show-menu', (v) => {
     addFilterBg.value = v
   })
 })
 </script>
 <template>
-  <div class="our-team-view" :class="{ filter: addFilterBg }">
-    <IconClose class="close-icon"></IconClose>
+  <div class="our-team-view en_font_bold" :class="{ filter: addFilterBg }">
+    <IconClose @click="onGoHome()" class="close-icon"></IconClose>
     <div class="content">
-      <div class="filter-box">filter-box</div>
+      <div class="filter-box">
+        <div class="name">FILTER</div>
+        <div class="filter-list">
+          <div
+            class="item"
+            :class="{ active: currentLevel === level }"
+            @click="onFilterTeacherByLevel(level)"
+            v-for="level in levels"
+            :key="level"
+          >
+            {{ level }}
+          </div>
+        </div>
+      </div>
       <div class="swiper-box">
         <swiper
           :modules="modules"
@@ -109,25 +156,38 @@ onMounted(() => {
                       <p>Info</p>
                       <p><Icon type="ios-arrow-round-forward" /></p>
                     </div>
-                    <div class="teacher-content" v-if="teacherItem.name === currenrTeacherName">
-                      <div class="top-wrap">
-                        <p>{{ teacherItem.title }}</p>
-                        <p>{{ teacherItem.subTitle }}</p>
-                      </div>
-                      <div class="bottom-wrap">
-                        <p>{{ teacherItem.desc }}</p>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="bottom">
-                  <div class="name">{{ teacherItem.isActive }}</div>
+                  <div class="name">{{ teacherItem.name }}</div>
                   <div class="level">{{ teacherItem.level }}</div>
                 </div>
               </div>
             </div>
           </swiper-slide>
         </swiper>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="teacher-info-view ch_font_light"
+    @click.stop="onCloseInfoView"
+    v-if="showoDetailsInfoView"
+  >
+    <IconClose class="close-teacher-info-view"></IconClose>
+    <div class="info-view">
+      <div class="img-view">
+        <div class="img-container"><img :src="currenrTeacher.img" alt="" /></div>
+      </div>
+      <div class="content-view">
+        <div class="top-wrap">
+          <p>{{ currenrTeacher.title }}</p>
+          <p>{{ currenrTeacher.subTitle }}</p>
+        </div>
+        <div class="bottom-wrap">
+          <p>{{ currenrTeacher.desc }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -150,7 +210,7 @@ onMounted(() => {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
+    z-index: 2;
   }
 
   .content {
@@ -164,11 +224,41 @@ onMounted(() => {
     .filter-box {
       flex: 1;
       height: 100%;
+      margin-top: 30rem;
+
+      .name {
+        font-size: 22rem;
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .filter-list {
+        margin-top: 20rem;
+
+        &:hover {
+          // color: #fff;
+          // cursor: pointer;
+        }
+
+        .item {
+          font-size: 16rem;
+          margin-bottom: 16rem;
+          &:hover {
+            color: #fff;
+            cursor: pointer;
+          }
+        }
+
+        .active {
+          font-size: 18rem;
+          color: #fff;
+        }
+      }
       // border: 1px solid orange;
     }
 
     .swiper-box {
-      flex: 6;
+      flex: 5.5;
       height: 100%;
       // border: 1px solid green;
     }
@@ -180,13 +270,21 @@ onMounted(() => {
   height: 100%;
 
   :deep(.swiper-pagination) {
+    top: unset;
+    bottom: 2%;
+
     .swiper-pagination-bullet {
-      background-color: green;
       opacity: 1;
+      width: 10rem;
+      height: 2rem;
+      border-radius: 0%;
+      background-color: #fff;
+      opacity: 0.5;
     }
 
     .swiper-pagination-bullet-active {
-      background-color: blue;
+      opacity: 1;
+      height: 4rem;
     }
   }
 }
@@ -197,16 +295,15 @@ onMounted(() => {
 }
 
 .teacher-info-item-box {
-  width: 33%;
+  width: 31.8%;
   height: 50%;
 }
 
 .teacher-info-item {
   width: max-content;
-  max-width: 92%;
   height: 100%;
   display: flex;
-  padding: 10rem;
+  padding: 20rem;
   flex-direction: column;
 
   .top {
@@ -216,6 +313,11 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     .bar {
       width: 30rem;
@@ -252,10 +354,7 @@ onMounted(() => {
       display: flex;
       justify-content: space-between;
       // align-items: center;
-
-      &:hover {
-        cursor: pointer;
-      }
+      position: relative;
     }
 
     .tip {
@@ -265,7 +364,7 @@ onMounted(() => {
       justify-content: center;
       margin-left: 20rem;
       p {
-        font-size: 16rem;
+        font-size: 12rem;
         color: #fff;
 
         &:nth-child(3) {
@@ -289,8 +388,12 @@ onMounted(() => {
     }
 
     .img-container {
-      width: calc(833rem / 9);
-      height: calc(1125rem / 9);
+      width: calc(833rem / 8);
+      height: calc(1125rem / 8);
+
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
   .bottom {
@@ -299,6 +402,63 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+}
+
+.teacher-info-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+
+  .close-teacher-info-view {
+    position: absolute;
+    bottom: calc(50% - 250rem - 50rem);
+
+    &:hover {
+      &::before {
+        top: 30rem;
+      }
+    }
+  }
+
+  .info-view {
+    width: 800rem;
+    height: 400rem;
+    border: 1rem solid #fff;
+    padding: 10rem;
+    display: flex;
+    align-items: center;
+
+    .img-view {
+      flex: 1.4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .img-container {
+      width: calc(833rem / 5);
+      height: calc(1125rem / 5);
+    }
+
+    .content-view {
+      flex: 2;
+      color: #fff;
+      font-size: 18rem;
+      margin-right: 36rem;
+      display: flex;
+      flex-direction: column;
+      // align-items: center;
+      height: calc(1125rem / 5);
+      justify-content: space-around;
+    }
   }
 }
 </style>

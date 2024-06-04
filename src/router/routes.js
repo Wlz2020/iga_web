@@ -26,6 +26,18 @@ export const routes = [
             component: () => import('@/views/about/ourTeam')
           }
         ]
+      },
+      // 作品集
+      {
+        path: '/works',
+        name: RN.Works,
+        children: [
+          {
+            path: '/student-works',
+            name: RN.StudentWorks,
+            component: () => import('@/views/works/studentWorks')
+          }
+        ]
       }
     ]
   }

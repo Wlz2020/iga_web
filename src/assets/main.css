@@ -31,3 +31,64 @@ img {
   filter: blur(15px);
   -webkit-filter: blur(15px);
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 100;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.ani-fadeIn {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.ani-fadeOut {
+  animation: fadeOut 1s ease-out;
+}
+
+@font-face {
+  font-family: 'ch_font_light';
+  src: url('./font/NotoSansSC-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ch_font_bold';
+  src: url('./font/NotoSansSC-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'en_font_bold';
+  src: url('./font/PPMori-SemiBold.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ch_font_light {
+  font-family: 'ch_font_light';
+}
+
+.ch_font_bold {
+  font-family: 'ch_font_bold';
+}
+
+.en_font_bold {
+  font-family: 'en_font_bold';
+}

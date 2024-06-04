@@ -8,14 +8,16 @@ import IconClose from '@/components/IconClose.vue'
 import { toPage } from '@/helps/navigation'
 import { RouterName as RN } from '@/config/router'
 import ImgLogo from '@/assets/image/index/icon_logo.png'
+import { usebackHomeFlagStore } from '@/stores/backHome'
 
 const menuStore = useMenuStore()
+const backHomeFlagStore = usebackHomeFlagStore()
 const showModal = ref(false)
 
 function onShowModal(flag) {
+  menuViewRef.value.classList.toggle('ani-fadeIn', flag)
   showModal.value = flag
   menuStore.changeMenuOpenStatus(flag)
-
   bus.emit('bus-show-menu', flag)
 }
 
@@ -33,7 +35,6 @@ const menuTopAreaList = [
       },
       {
         name: 'CONTACH US',
-        // TODO
         routerName: RN.AboutUs
       }
     ]
@@ -42,10 +43,8 @@ const menuTopAreaList = [
     name: 'SHOWCASE',
     items: [
       {
-        name: "STUDENTS' WORKS"
-      },
-      {
-        name: "TUTORS' WORKS"
+        name: "STUDENTS' WORKS",
+        routerName: RN.StudentWorks
       }
     ]
   },
@@ -62,6 +61,8 @@ const menuBottomAreaList = [
   }
 ]
 
+const menuViewRef = ref(null)
+
 const currentMenu = ref(menuTopAreaList[0])
 
 function setInitCurrentMenu() {
@@ -73,11 +74,16 @@ function onMouseover(item) {
 }
 
 const instance = getCurrentInstance()
+const { $router } = instance.proxy
 
 function goRouterByName(name) {
   onShowModal(false)
-  const { $router } = instance.proxy
   toPage($router, name)
+}
+
+function onGoHome() {
+  backHomeFlagStore.changeBackHomeFlagStatus(true)
+  toPage($router, RN.Home)
 }
 
 onMounted(() => {
@@ -86,8 +92,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="menuStore.menuShowIconStatus" class="menu-view">
-    <div class="logo-wrap">
+  <div v-if="menuStore.menuShowIconStatus" class="menu-view en_font_bold" ref="menuViewRef">
+    <div class="logo-wrap" @click="onGoHome">
       <img :src="ImgLogo" />
     </div>
 
@@ -133,6 +139,8 @@ onMounted(() => {
         </div>
         <div class="menu-details">
           <IconClose @click="onShowModal(false)"></IconClose>
+          <IconAdd></IconAdd>
+          <IconAdd></IconAdd>
           <IconAdd></IconAdd>
           <div class="item-box">
             <template v-if="['ABOUT', 'SHOWCASE'].includes(currentMenu.name)">
@@ -311,6 +319,18 @@ onMounted(() => {
         bottom: 0;
         right: 0;
       }
+
+      &:nth-child(3) {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      &:nth-child(4) {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
     }
 
     .item-box {
@@ -320,6 +340,8 @@ onMounted(() => {
       margin-bottom: 8rem;
 
       .item {
+        border: 1px solid transparent;
+
         &:not(&:last-child) {
           margin-bottom: 8rem;
         }
@@ -327,7 +349,8 @@ onMounted(() => {
         &:hover {
           color: #fff;
           cursor: pointer;
-          text-decoration: underline;
+          width: max-content;
+          border-bottom-color: #fff;
         }
       }
     }
@@ -338,6 +361,7 @@ onMounted(() => {
   .item {
     font-size: 15rem;
     color: #fff;
+    border: 1px solid transparent;
     &:not(&:last-child) {
       margin-bottom: 8rem;
     }
@@ -345,12 +369,16 @@ onMounted(() => {
     &:hover {
       color: #9c9c9c;
       cursor: pointer;
-      text-decoration: underline;
     }
   }
 
   .active {
-    text-decoration: underline;
+    width: max-content;
+    border-bottom-color: #fff;
+
+    &:hover {
+      border-bottom-color: #9c9c9c;
+    }
   }
 }
 </style>
