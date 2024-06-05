@@ -11,9 +11,9 @@ import IconAdd from '@/components/IconAdd.vue'
 
 import ImgIGALogo from '@/assets/image/index/iga-logo.png'
 import ImgSHCoverUrl from '@/assets/image/index/cover-sh-video.png'
-import VideoSHUrl from '@/assets/image/index/IGA-SZ.mp4'
+import VideoSHUrl from '@/assets/image/index/iga_video.mp4'
 import ImgSZCoverUrl from '@/assets/image/index/cover-sz-video.png'
-import VideoSZUrl from '@/assets/image/index/IGA-SZ.mp4'
+import VideoSZUrl from '@/assets/image/index/iga_video.mp4'
 
 const menuStore = useMenuStore()
 
