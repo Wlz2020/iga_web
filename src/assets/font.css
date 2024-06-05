@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'ch_font_light';
+  src: url('./font/NotoSansSC-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ch_font_bold';
+  src: url('./font/NotoSansSC-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'en_font_bold';
+  src: url('./font/PPMori-SemiBold.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'samall_lcd_sign_font';
+  src: url('./font/Small-LCD-Sign.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'seven_Segment_font';
+  src: url('./font/Seven-Segment.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ch_font_light {
+  font-family: 'ch_font_light';
+}
+
+.ch_font_bold {
+  font-family: 'ch_font_bold';
+}
+
+.en_font_bold {
+  font-family: 'en_font_bold';
+}
+
+.samall_lcd_sign_font {
+  font-family: 'samall_lcd_sign_font';
+}
+
+.seven_Segment_font {
+  font-family: 'seven_Segment_font';
+}

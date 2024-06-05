@@ -38,6 +38,18 @@ export const routes = [
             component: () => import('@/views/works/studentWorks')
           }
         ]
+      },
+      // OurOffers
+      {
+        path: '/offers',
+        name: RN.Offers,
+        children: [
+          {
+            path: '/our-offers',
+            name: RN.OurOffers,
+            component: () => import('@/views/offers/ourOffers')
+          }
+        ]
       }
     ]
   }

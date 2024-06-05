@@ -14,9 +14,11 @@ import { studentWorksList, levels } from './hook/data'
 const onSwiper = (swiper) => {
   console.log(swiper)
 }
+
 const onSlideChange = () => {
   console.log('slide change')
 }
+
 const modules = [Mousewheel, Pagination]
 
 const addFilterBg = ref(false)

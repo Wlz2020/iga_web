@@ -4,18 +4,6 @@ import { defineEmits } from 'vue'
 
 const emit = defineEmits(['close-loading-view'])
 
-// function onMouseover(e) {
-//   const srcEle = e.srcElement
-//   if (!srcEle) return
-//   srcEle.classList.add('animate__zoomIn')
-// }
-
-// function onMouseout(e) {
-//   const srcEle = e.srcElement
-//   if (!srcEle) return
-//   srcEle.classList.remove('animate__zoomIn')
-// }
-
 function onClick() {
   emit('close-loading-view')
 }
@@ -27,7 +15,7 @@ function onClick() {
       <img :src="loadingView" />
     </div>
 
-    <div class="font text-wrap">
+    <div class="font text-wrap en_font_bold">
       <span class="animate__animated animate__zoomIn" @click="onClick">START YOUR NEXT LEVEN</span>
     </div>
   </div>

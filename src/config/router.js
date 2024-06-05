@@ -10,5 +10,8 @@ export const RouterName = Object.freeze({
   OurTeam: 'OurTeam',
 
   Works: 'Works',
-  StudentWorks: 'StudentWorks'
+  StudentWorks: 'StudentWorks',
+
+  Offers: 'Offers',
+  OurOffers: 'OurOffers'
 })

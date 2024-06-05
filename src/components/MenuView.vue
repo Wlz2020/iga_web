@@ -8,6 +8,7 @@ import IconClose from '@/components/IconClose.vue'
 import { toPage } from '@/helps/navigation'
 import { RouterName as RN } from '@/config/router'
 import ImgLogo from '@/assets/image/index/icon_logo.png'
+import OfferPreview from '@/components/OfferPreview.vue'
 import { usebackHomeFlagStore } from '@/stores/backHome'
 
 const menuStore = useMenuStore()
@@ -154,7 +155,12 @@ onMounted(() => {
               </div>
             </template>
 
-            <template v-if="['OUR OFFERS'].includes(currentMenu.name)"> 2222 </template>
+            <template v-if="['OUR OFFERS'].includes(currentMenu.name)">
+              <OfferPreview
+                @click="goRouterByName(RN.OurOffers)"
+                class="offer-preview-wrap"
+              ></OfferPreview>
+            </template>
           </div>
         </div>
       </div>
@@ -229,7 +235,7 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   background-color: #000;
-  opacity: 0.8;
+  // opacity: 0.8;
   z-index: 1;
 
   .menu-list {
@@ -299,6 +305,7 @@ onMounted(() => {
 
   .menu-details {
     flex: 2;
+    overflow: hidden;
     // border: 1px solid yellow;
     position: relative;
     display: flex;
@@ -334,7 +341,6 @@ onMounted(() => {
     }
 
     .item-box {
-      // border: 1px solid yellow;
       font-size: 15rem;
       color: #9c9c9c;
       margin-bottom: 8rem;
@@ -351,6 +357,32 @@ onMounted(() => {
           cursor: pointer;
           width: max-content;
           border-bottom-color: #fff;
+        }
+      }
+
+      .offer-preview-wrap {
+        transform: scale(0.8);
+
+        &:hover {
+          cursor: pointer;
+
+          &::before {
+            content: 'VIEW MORES';
+            font-family: 'en_font_bold';
+            font-size: 20rem;
+            color: #fff;
+            position: absolute;
+            text-decoration: underline;
+            top: -2rem;
+            left: -2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(100% + 4rem);
+            height: calc(100% + 4rem);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+          }
         }
       }
     }

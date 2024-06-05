@@ -1,4 +1,5 @@
 /* @import './base.css'; */
+@import './font.css';
 
 * {
   padding: 0;
@@ -24,6 +25,10 @@
 img {
   width: 100%;
   height: 100%;
+}
+
+.p-relative {
+  position: relative;
 }
 
 /* 定义实现模糊效果的类名 */
@@ -60,35 +65,17 @@ img {
   animation: fadeOut 1s ease-out;
 }
 
-@font-face {
-  font-family: 'ch_font_light';
-  src: url('./font/NotoSansSC-Light.ttf');
-  font-weight: normal;
-  font-style: normal;
+@keyframes ani-bounce {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(9rem);
+    opacity: 0;
+  }
 }
 
-@font-face {
-  font-family: 'ch_font_bold';
-  src: url('./font/NotoSansSC-Bold.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'en_font_bold';
-  src: url('./font/PPMori-SemiBold.otf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.ch_font_light {
-  font-family: 'ch_font_light';
-}
-
-.ch_font_bold {
-  font-family: 'ch_font_bold';
-}
-
-.en_font_bold {
-  font-family: 'en_font_bold';
+.arrow-container {
+  animation: ani-bounce 1.3s infinite;
 }
